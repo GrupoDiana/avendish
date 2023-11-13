@@ -1,5 +1,6 @@
 set(VST3_SDK_ROOT "" CACHE PATH "VST3 SDK path")
 if(NOT VST3_SDK_ROOT)
+message(STATUS "VST3 SDK path not set, skipping bindings...")
   function(avnd_make_vst3)
   endfunction()
 
