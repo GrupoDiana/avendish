@@ -34,7 +34,6 @@ add_subdirectory("${VST3_SDK_ROOT}" "${CMAKE_BINARY_DIR}/vst3_sdk")
 
 function(avnd_make_vst3)
 
-message ("**** ENTER HERE")
   cmake_parse_arguments(AVND "" "TARGET;MAIN_FILE;MAIN_CLASS;C_NAME" "" ${ARGN})
   set(AVND_FX_TARGET "${AVND_TARGET}_vst3")
   add_library(${AVND_FX_TARGET} MODULE)
@@ -63,6 +62,17 @@ if(WIN32)
       OUTPUT_NAME_DEBUG "${AVND_C_NAME}d"
       LIBRARY_OUTPUT_DIRECTORY_DEBUG "vst3/${AVND_C_NAME}d.vst3/Contents/x86_64-win"
       RUNTIME_OUTPUT_DIRECTORY_DEBUG "vst3/${AVND_C_NAME}d.vst3/Contents/x86_64-win"
+      SUFFIX ".vst3"
+  )
+elseif(APPLE)
+  set_target_properties(
+    PROPERTIES
+      OUTPUT_NAME_RELEASE "${AVND_C_NAME}"
+      LIBRARY_OUTPUT_DIRECTORY_RELEASE "vst3/${AVND_C_NAME}.vst3/Contents/MacOS"
+      RUNTIME_OUTPUT_DIRECTORY_RELEASE "vst3/${AVND_C_NAME}.vst3/Contents/MacOS"
+      OUTPUT_NAME_DEBUG "${AVND_C_NAME}d"
+      LIBRARY_OUTPUT_DIRECTORY_DEBUG "vst3/${AVND_C_NAME}d.vst3/Contents/MacOS"
+     RUNTIME_OUTPUT_DIRECTORY_DEBUG "vst3/${AVND_C_NAME}d.vst3/Contents/MacOS"
       SUFFIX ".vst3"
   )
 elseif(UNIX)
