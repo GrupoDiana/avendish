@@ -32,6 +32,8 @@ endif()
 add_subdirectory("${VST3_SDK_ROOT}" "${CMAKE_BINARY_DIR}/vst3_sdk")
 
 function(avnd_make_vst3)
+
+message ("**** ENTER HERE")
   cmake_parse_arguments(AVND "" "TARGET;MAIN_FILE;MAIN_CLASS;C_NAME" "" ${ARGN})
   set(AVND_FX_TARGET "${AVND_TARGET}_vst3")
   add_library(${AVND_FX_TARGET} MODULE)
