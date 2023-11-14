@@ -50,6 +50,12 @@ function(avnd_make_vst3)
       "${AVND_MAIN_FILE}"
       "${CMAKE_BINARY_DIR}/${AVND_C_NAME}_vst3.cpp"
   )
+
+  target_compile_definitions(
+    ${AVND_FX_TARGET}
+    PUBLIC
+      -DDEVELOPMENT=1 
+  )
  
 if(WIN32)
   set_target_properties(
