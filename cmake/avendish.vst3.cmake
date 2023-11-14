@@ -69,6 +69,12 @@ if(WIN32)
       RUNTIME_OUTPUT_DIRECTORY_DEBUG "vst3/${AVND_C_NAME}d.vst3/Contents/x86_64-win"
       SUFFIX ".vst3"
   )
+elseif(APPLE)
+  option(SMTG_ADD_VST3_UTILITIES "needed for moduleinfotool" ON)
+  smtg_enable_vst3_sdk()
+  #smtg_target_set_vst_win_architecture_name(${AVND_C_NAME})
+  smtg_target_make_plugin_package(${AVND_FX_TARGET} ${AVND_FX_TARGET} vst3)
+  smtg_target_create_module_info_file(${AVND_FX_TARGET})  
 elseif(UNIX)
 set_target_properties(
   ${AVND_FX_TARGET}
