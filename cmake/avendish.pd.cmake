@@ -18,27 +18,31 @@ if(WIN32)
   endif()
 endif()
 
-# Define a PCH
-add_library(Avendish_pd_pch STATIC "${AVND_SOURCE_DIR}/src/dummy.cpp")
+if (NOT WIN32)
 
-target_include_directories(
-  Avendish_pd_pch
-  PRIVATE
-    ${PD_HEADER}
-)
+  # Define a PCH
+  add_library(Avendish_pd_pch STATIC "${AVND_SOURCE_DIR}/src/dummy.cpp")
 
-target_precompile_headers(Avendish_pd_pch
-  PUBLIC
-    include/avnd/binding/pd/all.hpp
-    include/avnd/prefix.hpp
-)
+  target_include_directories(
+   Avendish_pd_pch
+   PRIVATE
+      ${PD_HEADER}
+  )
 
-# target_link_libraries(Avendish_pd_pch
-#   PUBLIC
-#     DisableExceptions
-# )
+  target_precompile_headers(Avendish_pd_pch
+    PUBLIC
+      include/avnd/binding/pd/all.hpp
+      include/avnd/prefix.hpp
+  )
 
-avnd_common_setup("" "Avendish_pd_pch")
+  # target_link_libraries(Avendish_pd_pch
+  #   PUBLIC
+  #     DisableExceptions
+  # )
+
+  avnd_common_setup("" "Avendish_pd_pch")
+
+endif()
 
 function(avnd_make_pd)
   cmake_parse_arguments(AVND "" "TARGET;MAIN_FILE;MAIN_CLASS;C_NAME" "" ${ARGN})
@@ -86,10 +90,12 @@ function(avnd_make_pd)
       AVND_PUREDATA=1
   )
 
+if (NOT WIN32)
   target_precompile_headers(${AVND_FX_TARGET}
     REUSE_FROM
       Avendish_pd_pch
   )
+endif()
 
   target_link_libraries(
     ${AVND_FX_TARGET}
