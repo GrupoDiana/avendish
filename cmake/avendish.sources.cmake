@@ -27,11 +27,22 @@ elseif(APPLE)
   )
 endif()
 
-target_sources(Avendish
-  PUBLIC
-    ${AVENDISH_SOURCES}
-    $<TARGET_OBJECTS:avnd_dummy_lib>
-)
+# $<TARGET_OBJECTS:avnd_dummy_lib> does not work with Xcode? Thus this hack. 
+set(CMAKE_GENERATOR_VALUE "${CMAKE_GENERATOR}" CACHE STRING "Need to read internal variable CMAKE_GENERATOR" FORCE)
+if (CMAKE_GENERATOR_VALUE STREQUAL Xcode)
+  message(STATUS "Detected generating for Xcode")
+  target_sources(Avendish
+    PUBLIC
+      ${AVENDISH_SOURCES}
+      "${AVND_SOURCE_DIR}/src/dummy.cpp"
+  )
+else()
+  target_sources(Avendish
+    PUBLIC
+      ${AVENDISH_SOURCES}
+      $<TARGET_OBJECTS:avnd_dummy_lib> 
+  )
+endif()
 
 if(AVENDISH_INCLUDE_SOURCE_ONLY)
   target_include_directories(
